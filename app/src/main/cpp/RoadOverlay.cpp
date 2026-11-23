@@ -17,6 +17,11 @@
 
 namespace {
 
+// The backend keeps its state on the ImGui context. A surface that goes away
+// without a shutdown (context loss, view reuse) would otherwise trip the
+// backend assertion on the next init, so the leftover context is retired here.
+bool g_imguiBackendLive = false;
+
 const char* kSceneVertex = R"GLSL(#version 300 es
 precision highp float;
 uniform vec4 uRect;
@@ -182,6 +187,7 @@ void RoadOverlay::shutdown() {
         ImGui::DestroyContext();
         imguiReady_ = false;
     }
+    g_imguiBackendLive = false;
     destroyTargets();
     if (frameTexture_ != 0) {
         glDeleteTextures(1, &frameTexture_);
@@ -464,6 +470,13 @@ float RoadOverlay::scaleForSurface() const {
 
 void RoadOverlay::initImGui() {
     IMGUI_CHECKVERSION();
+    if (ImGui::GetCurrentContext() != nullptr) {
+        if (g_imguiBackendLive) {
+            ImGui_ImplOpenGL3_Shutdown();
+            g_imguiBackendLive = false;
+        }
+        ImGui::DestroyContext();
+    }
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
     io.IniFilename = nullptr;
@@ -491,6 +504,7 @@ void RoadOverlay::initImGui() {
 
     styleImGui();
     imguiReady_ = ImGui_ImplOpenGL3_Init("#version 300 es");
+    g_imguiBackendLive = imguiReady_;
     if (!imguiReady_) {
         LOGE("ImGui OpenGL3 backend failed to initialise");
         ImGui::DestroyContext();

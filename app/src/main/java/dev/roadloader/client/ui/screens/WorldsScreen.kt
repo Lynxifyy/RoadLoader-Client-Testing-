@@ -184,7 +184,8 @@ private fun WorldRow(
             }
             Spacer(Modifier.height(4.dp))
             Text(
-                text = "${instance.packageName ?: "unknown package"} · ${formatPlayTime(instance.playTimeMs)}",
+                text = "${instance.packageName ?: "unknown package"} · " +
+                    (if (instance.playTimeMs <= 0) "not played yet" else formatPlayTime(instance.playTimeMs)),
                 style = MaterialTheme.typography.bodySmall,
                 color = RoadColors.TextMuted,
                 maxLines = 1,

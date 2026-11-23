@@ -146,12 +146,15 @@ fun GameScreen(
             factory = { ctx ->
                 GameSurfaceView(ctx).also { view -> view.attach(host, renderer) }
             },
+            onRelease = { view -> view.detach() },
         )
 
-        // Tap strip along the top edge brings the chrome back.
+        // Tap strip along the top edge brings the chrome back. It stops short
+        // of the right corner so the native menu button keeps its taps.
         Box(
             modifier = Modifier
-                .fillMaxWidth()
+                .align(Alignment.TopStart)
+                .fillMaxWidth(0.62f)
                 .height(46.dp)
                 .statusBarsPadding()
                 .clickable(

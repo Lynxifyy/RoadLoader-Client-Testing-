@@ -38,9 +38,12 @@ class GameSurfaceView(context: Context) : GLSurfaceView(context) {
     }
 
     fun detach() {
-        renderer?.release()
+        val active = renderer
         renderer = null
         host = null
+        // The overlay owns GL objects, so it has to be torn down on the thread
+        // that owns the context.
+        if (active != null) queueEvent { active.release() }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

@@ -204,8 +204,12 @@ fun StatChip(
         }
         Text(
             text = label,
-            style = MaterialTheme.typography.labelSmall,
-            color = RoadColors.TextMuted,
+            style = if (value.isEmpty()) {
+                MaterialTheme.typography.labelMedium
+            } else {
+                MaterialTheme.typography.labelSmall
+            },
+            color = if (value.isEmpty()) accent ?: tint else RoadColors.TextSecondary,
         )
         if (value.isNotEmpty()) {
             Text(
