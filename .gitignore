@@ -1,0 +1,14 @@
+.gradle/
+build/
+*/build/
+local.properties
+.idea/
+*.iml
+captures/
+.cxx/
+**/.cxx/
+# Native artifacts staged by the RoadLoader build script
+RoadLoader/road-loader-core/src/main/jniLibs/
+# Agent scratch
+.openhands/
+.DS_Store
