@@ -12,3 +12,6 @@ RoadLoader/road-loader-core/src/main/jniLibs/
 # Agent scratch
 .openhands/
 .DS_Store
+keystore.properties
+*.jks
+*.keystore

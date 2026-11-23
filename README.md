@@ -18,6 +18,11 @@ streamed into a `SurfaceView` over shared memory.
 +---------------------------+            +---------------------------+
 ```
 
+![RoadClient home](docs/screenshots/01-home.jpg)
+
+*Launcher on the left of the bridge, live 32-bit game and ImGui HUD on the
+right. More in [docs/SCREENSHOTS.md](docs/SCREENSHOTS.md).*
+
 ## What is in the box
 
 - **Launcher** - imports 1.16/1.17 APKs, extracts the 32-bit `libminecraftpe.so`,
